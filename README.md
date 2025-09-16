@@ -17,9 +17,9 @@ So the right decision making on when to reload and when to shoot is crucial for 
 SAFE RELOAD is directly playable on itch.io [SAFE RELOAD on itch.io](https://gurd62.itch.io/safe-reload)
 
 ### Download (Windows)
-1: Download the latest release from itch.io [SAFE RELOAD on itch.io](https://gurd62.itch.io/safe-reload)
-2: Extract the .zip file
-3: Run the .exe file
+- 1: Download the latest release from itch.io [SAFE RELOAD on itch.io](https://gurd62.itch.io/safe-reload)
+- 2: Extract the .zip file
+- 3: Run the .exe file
 
 ### Development
 - Engine: Unity 6
