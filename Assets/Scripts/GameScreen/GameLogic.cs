@@ -83,15 +83,15 @@ public class GameLogic : MonoBehaviour
         SceneManager.LoadScene("StartMenuScene");
     }
 
-    private void Spawner_OnEnemySpawn(GameObject enemy)
+    private void Spawner_OnEnemySpawn(EnemyLogic logic)
     {
-        if (enemy.TryGetComponent<EnemyLogic>(out var logic))
-        {
-            logic.ActivateEnemy(player.transform);
-            logic.ResetEnemy();
-            logic.OnDeath += Logic_OnDeath;
-            logic.OnPlayerHit += Logic_OnPlayerHit;
-        }
+        logic.ResetEnemy();
+
+        logic.OnDeath -= Logic_OnDeath;
+        logic.OnPlayerHit -= Logic_OnPlayerHit;
+
+        logic.OnDeath += Logic_OnDeath;
+        logic.OnPlayerHit += Logic_OnPlayerHit;
     }
 
     private void Logic_OnPlayerHit(int damage)
@@ -104,7 +104,7 @@ public class GameLogic : MonoBehaviour
     {
         obj.OnDeath -= Logic_OnDeath;
         obj.OnPlayerHit -= Logic_OnPlayerHit;
-        EnemyPool.Instance.ReturnEnemy(obj.tag, obj.gameObject);
+        EnemyPool.Instance.ReturnEnemy(obj.GetData(), obj.gameObject);
         EnemyPool.Instance.RemoveEnemyFromList(obj.gameObject);
         playerScore += score;
         gameUI.UpdateScore(playerScore);

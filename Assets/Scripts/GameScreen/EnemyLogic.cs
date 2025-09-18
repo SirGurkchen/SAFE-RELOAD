@@ -10,13 +10,12 @@ public class EnemyLogic : MonoBehaviour
 {
     public event Action<EnemyLogic, int> OnDeath;
     public event Action<int> OnPlayerHit;
-    
+
+    private EnemySO data;
     private int _health;
-    [SerializeField] private Rigidbody2D _rb;
-    [SerializeField] private float _moveSpeed = 5f;
-    [SerializeField] private int _scoreToGive = 50;
-    [SerializeField] private int _damageToGive = 1;
-    [SerializeField] private int _maxHealth = 2;
+    private Rigidbody2D _rb;
+    private int _score;
+
     [SerializeField] private float _damageIndicatorTime = 0.1f;
     [SerializeField] private SpriteRenderer spriteRenderer;
     [SerializeField] private AudioSource hitSoundSource;
@@ -25,9 +24,14 @@ public class EnemyLogic : MonoBehaviour
     private Color _originalColor;
     private Transform playerPos;
 
-    private void Awake()
+    public void Initialize(EnemySO enemyData, Transform playerTransform)
     {
+        data = enemyData;
+        playerPos = playerTransform;
+        _rb = GetComponent<Rigidbody2D>();
+        _health = data.maxHealth;
         _originalColor = spriteRenderer.color;
+        _score = enemyData.scoreToGive;
     }
 
     private void FixedUpdate()
@@ -42,12 +46,13 @@ public class EnemyLogic : MonoBehaviour
         float angle = Mathf.Atan2(dir.y, dir.x) * Mathf.Rad2Deg;
         transform.rotation = Quaternion.Euler(0, 0, angle - 90f);
 
-        _rb.linearVelocity = dir * _moveSpeed;
+        _rb.linearVelocity = dir * data.moveSpeed;
     }
+
 
     public void ResetEnemy()
     {
-        _health = _maxHealth;
+        _health = data.maxHealth;
         _rb.linearVelocity = Vector2.zero;
     }
 
@@ -60,7 +65,7 @@ public class EnemyLogic : MonoBehaviour
         if (_health <= 0)
         {
             AudioManager.Instance.PlayEnemyDieAudio();
-            OnDeath?.Invoke(this, _scoreToGive);
+            OnDeath?.Invoke(this, _score);
         }
     }
 
@@ -71,16 +76,11 @@ public class EnemyLogic : MonoBehaviour
         spriteRenderer.color = _originalColor;
     }
 
-    public void ActivateEnemy(Transform playerTransform)
-    {
-        playerPos = playerTransform;
-    }
-
     private void OnCollisionEnter2D(Collision2D collision)
     {
         if (collision.gameObject.CompareTag("Player"))
         {
-            OnPlayerHit?.Invoke(_damageToGive);
+            OnPlayerHit?.Invoke(data.damageToGive);
         }
     }
 
@@ -90,5 +90,10 @@ public class EnemyLogic : MonoBehaviour
         {
             hitSoundSource.PlayOneShot(hitSound);
         }
+    }
+
+    public EnemySO GetData()
+    {
+        return data;
     }
 }

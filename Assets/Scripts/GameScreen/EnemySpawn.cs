@@ -9,11 +9,12 @@ using UnityEngine;
 /// </summary>
 public class EnemySpawn : MonoBehaviour
 {
-    public event Action<GameObject> OnEnemySpawn;
+    public event Action<EnemyLogic> OnEnemySpawn;
 
     [SerializeField] private Transform[] spawnPoints;
     [SerializeField] private float spawnTime = 2.5f;
-    [SerializeField] private String[] enemyTypes;
+    [SerializeField] private EnemySO[] enemyTypes;
+    [SerializeField] private GameObject player;
 
     private const float MAX_SPAWNTIME = 2.25f;
     private const float SPAWNTIME_SUBTRACTION_MULTIPLIER = 0.15f;
@@ -45,17 +46,15 @@ public class EnemySpawn : MonoBehaviour
 
     private void SpawnEnemy()
     {
-        int spawnIndex = UnityEngine.Random.Range(0, spawnPoints.Length);
-        
-        string enemy = enemyTypes[UnityEngine.Random.Range(0, enemyTypes.Length)];
+        Transform spawnPoint = spawnPoints[UnityEngine.Random.Range(0, spawnPoints.Length)];
+        EnemySO randomEnemy = enemyTypes[UnityEngine.Random.Range(0, enemyTypes.Length)];
 
-        GameObject enemyObj = EnemyPool.Instance.GetEnemy(enemy);
+        GameObject enemyObj = EnemyPool.Instance.GetEnemy(randomEnemy);
+        enemyObj.transform.position = spawnPoint.position;
 
-        enemyObj.transform.position = spawnPoints[spawnIndex].position;
-        enemyObj.transform.rotation = Quaternion.identity;
+        var logic = enemyObj.GetComponent<EnemyLogic>();
+        logic.Initialize(randomEnemy, player.transform);
 
-        OnEnemySpawn?.Invoke(enemyObj);
-
-        EnemyPool.Instance.AddEnemyToList(enemyObj);
+        OnEnemySpawn?.Invoke(logic);
     }
 }

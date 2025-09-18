@@ -9,13 +9,9 @@ public class EnemyPool : MonoBehaviour
 {
     public static EnemyPool Instance;
 
-    [SerializeField] private GameObject enemyPrefab;
+    [SerializeField] private List<EnemySO> enemyTypes;
 
-    [SerializeField] private GameObject strongEnemyPrefab;
-
-    [SerializeField] private GameObject fastEnemyPrefab;
-
-    private Dictionary<string, Queue<GameObject>> pools = new Dictionary<string, Queue<GameObject>>();
+    private Dictionary<EnemySO, Queue<GameObject>> pools = new Dictionary<EnemySO, Queue<GameObject>>();
 
     private List<GameObject> activeEnemyList;
 
@@ -31,39 +27,40 @@ public class EnemyPool : MonoBehaviour
             Destroy(gameObject);
         }
         activeEnemyList = new List<GameObject>();
-        pools["Enemy"] = CreatePool(enemyPrefab, 30);
-        pools["StrongEnemy"] = CreatePool(strongEnemyPrefab, 30);
-        pools["FastEnemy"] = CreatePool(fastEnemyPrefab, 30);
+        
+        foreach(EnemySO enemy in enemyTypes)
+        {
+            pools[enemy] = CreatePool(enemy, 105);
+        }
     }
 
-    private Queue<GameObject> CreatePool(GameObject enemyPrefab, int poolSize)
+    private Queue<GameObject> CreatePool(EnemySO data, int poolSize)
     {
         var queue = new Queue<GameObject>();
         for (int i = 0; i < poolSize; i++)
         {
-            var obj = Instantiate(enemyPrefab);
+            var obj = Instantiate(data.prefab);
             obj.SetActive(false);
             queue.Enqueue(obj);
         }
         return queue;
     }
 
-    public GameObject GetEnemy(string type)
+    public GameObject GetEnemy(EnemySO data)
     {
-        var pool = pools[type];
-        if (pool.Count > 0)
+        if (pools[data].Count > 0)
         {
-            var obj = pool.Dequeue();
+            var obj = pools[data].Dequeue();
             obj.SetActive(true);
             return obj;
         }
-        return Instantiate(type == "Enemy" ? enemyPrefab : strongEnemyPrefab);
+        return Instantiate(data.prefab);
     }
 
-    public void ReturnEnemy(string type, GameObject obj)
+    public void ReturnEnemy(EnemySO data, GameObject obj)
     {
         obj.SetActive(false);
-        pools[type].Enqueue(obj);
+        pools[data].Enqueue(obj);
     }
 
     public void AddEnemyToList(GameObject enemy)
