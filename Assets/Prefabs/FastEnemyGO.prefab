@@ -81,7 +81,7 @@ Rigidbody2D:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 240829624686518047}
-  m_BodyType: 0
+  m_BodyType: 1
   m_Simulated: 1
   m_UseFullKinematicContacts: 0
   m_UseAutoMass: 0
@@ -112,11 +112,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 71c5615a4228308499445e6debdd2f46, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _rb: {fileID: 4914306202207201503}
-  _moveSpeed: 5
-  _scoreToGive: 25
-  _damageToGive: 1
-  _maxHealth: 1
   _damageIndicatorTime: 0.1
   spriteRenderer: {fileID: 8286937981852254420}
   hitSoundSource: {fileID: 5649320118564914771}

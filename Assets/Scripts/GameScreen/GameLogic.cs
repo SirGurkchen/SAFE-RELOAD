@@ -13,6 +13,7 @@ public class GameLogic : MonoBehaviour
     [SerializeField] private ShootingLogic shootLogic;
     [SerializeField] private UIManager gameUI;
     [SerializeField] private Player player;
+    [SerializeField] private int bulletDamage = 1;
 
     private int playerScore = 0;
     private int highScore = 0;
@@ -127,6 +128,13 @@ public class GameLogic : MonoBehaviour
         bulletLogic.OnObjectHit += NewBulletLogic_OnObjectHit;
     }
 
+    public void SubscribeEnemyBullet(BulletLogic bulletLogic, GameObject enemy)
+    {
+        bulletLogic.moveBullet(enemy.transform.up);
+
+        bulletLogic.OnObjectHit += NewBulletLogic_OnObjectHit;
+    }
+
     private void NewBulletLogic_OnObjectHit(GameObject obj, GameObject bullet)
     {
         bullet.GetComponent<BulletLogic>().OnObjectHit -= NewBulletLogic_OnObjectHit;
@@ -135,6 +143,11 @@ public class GameLogic : MonoBehaviour
         if (obj.tag.Contains("Enemy"))
         {
             obj.GetComponent<EnemyLogic>().RemoveHealth();
+        }
+        else if (obj.tag.Contains("Player"))
+        {
+            player.TakeDamage(bulletDamage);
+            gameUI.UpdateHealthBar((float)player.GetCurrentHealth() / (float)player.GetMaxHealth());
         }
     }
 

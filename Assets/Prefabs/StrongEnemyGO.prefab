@@ -199,11 +199,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 71c5615a4228308499445e6debdd2f46, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _rb: {fileID: 4439763492067370086}
-  _moveSpeed: 2
-  _scoreToGive: 75
-  _damageToGive: 2
-  _maxHealth: 3
   _damageIndicatorTime: 0.1
   spriteRenderer: {fileID: 3515815576684455269}
   hitSoundSource: {fileID: 3774158279204954406}

@@ -30,7 +30,7 @@ public class EnemyPool : MonoBehaviour
         
         foreach(EnemySO enemy in enemyTypes)
         {
-            pools[enemy] = CreatePool(enemy, 105);
+            pools[enemy] = CreatePool(enemy, 15);
         }
     }
 

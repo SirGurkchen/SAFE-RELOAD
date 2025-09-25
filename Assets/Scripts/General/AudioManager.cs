@@ -23,6 +23,7 @@ public class AudioManager : MonoBehaviour
     [SerializeField] private AudioSource walkingSource;
     [SerializeField] private AudioSource enemyDieSource;
     [SerializeField] private AudioSource musicSource;
+    [SerializeField] private AudioSource enemyShootSource;
     [SerializeField] private List<Sound> sounds;
 
     /// <summary>
@@ -85,6 +86,14 @@ public class AudioManager : MonoBehaviour
         else
         {
             Debug.Log("Sound not found!");
+        }
+    }
+
+    public void PlayEnemyShoot(SoundType type)
+    {
+        if (soundDictionary.TryGetValue(type, out AudioClip clip))
+        {
+            enemyShootSource.PlayOneShot(clip);
         }
     }
 

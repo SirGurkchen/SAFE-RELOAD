@@ -112,11 +112,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 71c5615a4228308499445e6debdd2f46, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _rb: {fileID: 8824453652248950299}
-  _moveSpeed: 3
-  _scoreToGive: 50
-  _damageToGive: 1
-  _maxHealth: 2
   _damageIndicatorTime: 0.1
   spriteRenderer: {fileID: 4054731501969002901}
   hitSoundSource: {fileID: 3566550124170555031}
