@@ -11,6 +11,8 @@ So the right decision making on when to reload and when to shoot is crucial for 
 - High score system
 - Toggable music and sound effects
 - Start menu system
+- Switchable weapons
+- Multiple enemy types
 
 ## Where to Play
 ### In Browser
