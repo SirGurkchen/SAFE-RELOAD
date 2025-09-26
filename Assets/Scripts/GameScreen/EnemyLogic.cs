@@ -60,7 +60,10 @@ public class EnemyLogic : MonoBehaviour
     {
         _health--;
         PlayHitSound();
-        StartCoroutine(TakeDamageVisual());
+        if (_health > 0)
+        {
+            StartCoroutine(TakeDamageVisual());
+        }
 
         if (_health <= 0)
         {
@@ -86,7 +89,7 @@ public class EnemyLogic : MonoBehaviour
 
     private void PlayHitSound()
     {
-        if (hitSoundSource != null && hitSound != null)
+        if (hitSoundSource != null && hitSound != null && _health > 0)
         {
             hitSoundSource.PlayOneShot(hitSound);
         }

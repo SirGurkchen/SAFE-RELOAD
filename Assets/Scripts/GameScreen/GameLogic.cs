@@ -42,7 +42,6 @@ public class GameLogic : MonoBehaviour
             player = FindAnyObjectByType<Player>();
             GameInput.Instance = FindAnyObjectByType<GameInput>();
 
-            gameUI.ResetAmmo(shootLogic.GetMaxAmmo());
             shootLogic.OnReloadAction += ShootLogic_OnReloadAction;
             shootLogic.OnShootAction += ShootLogic_OnShootAction;
             spawner.OnEnemySpawn += Spawner_OnEnemySpawn;
@@ -55,7 +54,6 @@ public class GameLogic : MonoBehaviour
     private void Start()
     {
         DontDestroyOnLoad(this.gameObject);
-        gameUI.ResetAmmo(shootLogic.GetMaxAmmo());
         shootLogic.OnReloadAction += ShootLogic_OnReloadAction;
         shootLogic.OnShootAction += ShootLogic_OnShootAction;
         spawner.OnEnemySpawn += Spawner_OnEnemySpawn;
@@ -121,11 +119,25 @@ public class GameLogic : MonoBehaviour
         gameUI.RefreshAmmo(shootLogic.GetMaxAmmo(), shootLogic.GetCurrentAmmo());
     }
 
-    public void SubScribeBullet(BulletLogic bulletLogic)
+    public void SubScribePistolBullet(BulletLogic bulletLogic)
     {
         bulletLogic.moveBullet(player.transform.up);
 
         bulletLogic.OnObjectHit += NewBulletLogic_OnObjectHit;
+    }
+
+    public void SubscribeShotgunBullets(BulletLogic bulletLogic, BulletLogic bulletLogic2, BulletLogic bulletLogic3)
+    {
+        Vector3 leftOffset = player.transform.rotation * new Vector3(-1, 1, 0).normalized;
+        Vector3 rightOffset = player.transform.rotation * new Vector3(1, 1, 0).normalized;
+
+        bulletLogic.moveBullet(player.transform.up);
+        bulletLogic2.moveBullet(leftOffset);
+        bulletLogic3.moveBullet(rightOffset);
+
+        bulletLogic.OnObjectHit += NewBulletLogic_OnObjectHit;
+        bulletLogic2.OnObjectHit += NewBulletLogic_OnObjectHit;
+        bulletLogic3.OnObjectHit += NewBulletLogic_OnObjectHit;
     }
 
     public void SubscribeEnemyBullet(BulletLogic bulletLogic, GameObject enemy)

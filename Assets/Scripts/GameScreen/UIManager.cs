@@ -7,27 +7,33 @@ using UnityEngine.UI;
 /// </summary>
 public class UIManager : MonoBehaviour
 {
-    [SerializeField] private TextMeshProUGUI ammoText;
-    [SerializeField] private TextMeshProUGUI scoreText;
-    [SerializeField] private Image healthBar;
+    [SerializeField] private TextMeshProUGUI _ammoText;
+    [SerializeField] private TextMeshProUGUI _scoreText;
+    [SerializeField] private Image _healthBar;
+    [SerializeField] private TextMeshProUGUI _weaponText;
 
     public void ResetAmmo(int maxAmmo)
     {
-        ammoText.text = maxAmmo + " | " + maxAmmo;
+        _ammoText.text = maxAmmo + " | " + maxAmmo;
     }
 
     public void RefreshAmmo(int maxAmmo, int currentAmmo)
     {
-        ammoText.text = currentAmmo + " | " + maxAmmo;
+        _ammoText.text = currentAmmo + " | " + maxAmmo;
     }
 
     public void UpdateScore(int newScore)
     {
-        scoreText.text = "Score: " + newScore;
+        _scoreText.text = "Score: " + newScore;
     }
 
     public void UpdateHealthBar(float fillAmount)
     {
-        healthBar.fillAmount = fillAmount;
+        _healthBar.fillAmount = fillAmount;
+    }
+
+    public void SetWeaponText(string weaponText)
+    {
+        _weaponText.text = weaponText; 
     }
 }

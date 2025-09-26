@@ -1,3 +1,4 @@
+using System;
 using UnityEngine;
 using UnityEngine.InputSystem;
 using UnityEngine.SceneManagement;
@@ -9,6 +10,8 @@ using UnityEngine.SocialPlatforms.Impl;
 /// </summary>
 public class GameInput : MonoBehaviour
 {
+    public event Action<int> OnWeaponSwitch;
+
     public static GameInput Instance;
 
     private InputActions inputActions;
@@ -39,6 +42,22 @@ public class GameInput : MonoBehaviour
         }
 
         EnableInput();
+    }
+
+    private void Start()
+    {
+        inputActions.Player.Weapon1.performed += Weapon1_performed;
+        inputActions.Player.Weapon2.performed += Weapon2_performed;
+    }
+
+    private void Weapon2_performed(InputAction.CallbackContext obj)
+    {
+        OnWeaponSwitch?.Invoke(1);
+    }
+
+    private void Weapon1_performed(InputAction.CallbackContext obj)
+    {
+        OnWeaponSwitch?.Invoke(0);
     }
 
     private void SceneManager_sceneLoaded(Scene scene, LoadSceneMode mode)
@@ -119,6 +138,8 @@ public class GameInput : MonoBehaviour
     {
         inputActions.Player.Shoot.Enable();
         inputActions.Player.MuteMusic.Enable();
+        inputActions.Player.Weapon1.Enable();
+        inputActions.Player.Weapon2.Enable();
         SwitchInput(inputScheme);
     }
 }
